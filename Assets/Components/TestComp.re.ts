@@ -1,5 +1,6 @@
 import * as RE from 'rogue-engine';
-import GameInstance from './GameInstance.re';
+import GameInstance from './GameInstance';
+import SaveGameManager from './SaveGameManager.re';
 
 export default class TestComp extends RE.Component {
   awake() {
@@ -8,8 +9,24 @@ export default class TestComp extends RE.Component {
 
 
   update(): void {
+
     if(RE.Input.keyboard.getKeyDown("KeyA")){
       RE.App.loadScene("GameScene");
+    }
+
+    if(RE.Input.keyboard.getKeyDown("KeyD")){
+      // const myObject = {
+      //   name: "john",
+      //   age: 32,
+      //   gender: "male",
+      //   profession: "teacher"
+      // }
+      // window.localStorage.setItem('savedFile', JSON.stringify(myObject));
+      
+    }
+
+    if(RE.Input.keyboard.getKeyDown("KeyS")){
+      //SaveGameManager.SaveGame();
     }
   }
   private ReturnTrueOnScene(scene: number){

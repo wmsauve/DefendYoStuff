@@ -13195,10 +13195,10 @@ const endShapeContactEvent = {
 
 /***/ }),
 
-/***/ "./Assets/Components/GameInstance.re.ts":
-/*!**********************************************!*\
-  !*** ./Assets/Components/GameInstance.re.ts ***!
-  \**********************************************/
+/***/ "./Assets/Components/GameInstance.ts":
+/*!*******************************************!*\
+  !*** ./Assets/Components/GameInstance.ts ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -13214,9 +13214,7 @@ class GameInstance {
   static InitializeGameInstance() {
     if (GameInstance._gameInstance == null) {
       GameInstance._gameInstance = this;
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Creating gamem instance");
-    } else {
-      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("No game instance yo.");
+      rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Debug.log("Initializing Game Instance.");
     }
   }
   static getInstance() {
@@ -13224,6 +13222,76 @@ class GameInstance {
   }
 }
 __name(GameInstance, "GameInstance");
+
+
+/***/ }),
+
+/***/ "./Assets/Components/SaveGameManager.re.ts":
+/*!*************************************************!*\
+  !*** ./Assets/Components/SaveGameManager.re.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SaveGameManager)
+/* harmony export */ });
+/* harmony import */ var _SavedGame__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SavedGame */ "./Assets/Components/SavedGame.ts");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class SaveGameManager {
+  constructor() {
+    this._fetchSaved = new Promise((Resolve, Reject) => {
+      Resolve("Success");
+      Reject("Error");
+    });
+  }
+  SaveGame() {
+  }
+  LoadGame() {
+    this._fetchSaved.then(() => {
+      let _tempSaved = window.localStorage.getItem(this._saveGameKey);
+      rogue_engine__WEBPACK_IMPORTED_MODULE_1__.Debug.log("Saved game found.");
+      if (_tempSaved) {
+        this._savedGame = JSON.parse(_tempSaved);
+      }
+    }, () => {
+      console.log("No saved found");
+      this.GenerateSavedGame();
+    });
+  }
+  GenerateSavedGame() {
+    this._savedGame = new _SavedGame__WEBPACK_IMPORTED_MODULE_0__["default"]("hellodudehello");
+    let _tempSaved = window.localStorage.setItem(this._saveGameKey, JSON.stringify(this._savedGame.GetData()));
+  }
+}
+__name(SaveGameManager, "SaveGameManager");
+
+
+/***/ }),
+
+/***/ "./Assets/Components/SavedGame.ts":
+/*!****************************************!*\
+  !*** ./Assets/Components/SavedGame.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SavedGame)
+/* harmony export */ });
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+class SavedGame {
+  constructor(username) {
+    this._savedGame.username = username;
+  }
+}
+__name(SavedGame, "SavedGame");
 
 
 /***/ }),
@@ -13240,18 +13308,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
 /* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _GameInstance_re__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameInstance.re */ "./Assets/Components/GameInstance.re.ts");
+/* harmony import */ var _GameInstance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameInstance */ "./Assets/Components/GameInstance.ts");
+/* harmony import */ var _SaveGameManager_re__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaveGameManager.re */ "./Assets/Components/SaveGameManager.re.ts");
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 
+
 class TestComp extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   awake() {
-    _GameInstance_re__WEBPACK_IMPORTED_MODULE_1__["default"].InitializeGameInstance();
+    _GameInstance__WEBPACK_IMPORTED_MODULE_1__["default"].InitializeGameInstance();
   }
   update() {
     if (rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("KeyA")) {
       rogue_engine__WEBPACK_IMPORTED_MODULE_0__.App.loadScene("GameScene");
+    }
+    if (rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("KeyD")) {
+      const myObject = {
+        name: "john",
+        age: 32,
+        gender: "male",
+        profession: "teacher"
+      };
+      window.localStorage.setItem("savedFile", JSON.stringify(myObject));
+    }
+    if (rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Input.keyboard.getKeyDown("KeyS")) {
+      _SaveGameManager_re__WEBPACK_IMPORTED_MODULE_2__["default"].SaveGame();
     }
   }
   ReturnTrueOnScene(scene) {
@@ -15435,7 +15517,9 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__("./Assets/Components/GameInstance.re.ts");
+/******/ 	__webpack_require__("./Assets/Components/GameInstance.ts");
+/******/ 	__webpack_require__("./Assets/Components/SavedGame.ts");
+/******/ 	__webpack_require__("./Assets/Components/SaveGameManager.re.ts");
 /******/ 	__webpack_require__("./Assets/Components/TestComp.re.ts");
 /******/ 	__webpack_require__("./Assets/Components/TestComp2.re.ts");
 /******/ 	__webpack_require__("./Assets/rogue_packages/rogue-cannon/Components/CannonBody.re.ts");

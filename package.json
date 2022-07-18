@@ -16,11 +16,13 @@
     "esbuild": "^0.14.49",
     "esbuild-windows-64": "^0.14.49",
     "express": "^4.17.1",
+    "file-saver": "^2.0.5",
     "glob": "7.1.6",
     "mkcert": "^1.4.0",
     "three": "0.134.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "cross-env": "^5.2.1",
     "esbuild-loader": "2.16.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",

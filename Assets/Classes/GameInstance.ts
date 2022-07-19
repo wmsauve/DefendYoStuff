@@ -1,5 +1,5 @@
 import * as RE from 'rogue-engine';
-import SaveGameManager from './SaveGameManager.re';
+import SaveGameManager from './SaveGameManager';
 
 export default class GameInstance {
 

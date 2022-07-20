@@ -18,7 +18,7 @@ export default class GameMode extends RE.Component {
     else{
       //How do we get the PC_Mainmenu
       this._playerController = RE.getComponent(PC_MainMenu, this._pcPrefab) as PC_MainMenu;
-      RE.addComponent(this._playerController);
+
       if(this._playerController){
         RE.Debug.log("there is a player controller here");
       }

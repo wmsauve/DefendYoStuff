@@ -1,6 +1,6 @@
 import * as RE from 'rogue-engine';
-import GameInstance from '../Classes/GameInstance';
-import SaveGameManager from '../Classes/SaveGameManager';
+import GameInstance from '../Classes/ParentClasses/GameInstance';
+import SaveGameManager from '../Classes/ParentClasses/SaveGameManager';
 
 export default class TestComp extends RE.Component {
   awake() {

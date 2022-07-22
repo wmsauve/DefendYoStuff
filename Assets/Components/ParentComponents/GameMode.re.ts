@@ -1,7 +1,7 @@
 import PlayerController from 'Assets/Components/ParentComponents/PlayerController.re';
 import * as RE from 'rogue-engine';
 import { Object3D } from 'three';
-import PC_MainMenu from '../PC_MainMenu.re';
+import PC_MainMenu from '../MainMenuComponents/PC_MainMenu.re';
 
 export default class GameMode extends RE.Component {
 

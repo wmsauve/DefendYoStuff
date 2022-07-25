@@ -1,7 +1,7 @@
 import * as RE from 'rogue-engine';
 import PlayerController from '../ParentComponents/PlayerController.re';
 import SceneComponent from '../ParentComponents/SceneComponent.re';
-import CameraRotationHandler from './CameraRotationHandler.re';
+import CameraMovementHandler from './CameraMovementHandler.re';
 
 export default class PC_GameScene extends PlayerController {
 
@@ -10,8 +10,8 @@ export default class PC_GameScene extends PlayerController {
   start() {
     super.start();
 
-    RE.addComponent(new CameraRotationHandler('cameraRot', this.object3d));
-    this._cameraRotComponent = RE.getComponent(CameraRotationHandler, this.object3d) as SceneComponent;
+    RE.addComponent(new CameraMovementHandler('cameraRot', this.object3d));
+    this._cameraRotComponent = RE.getComponent(CameraMovementHandler, this.object3d) as SceneComponent;
     this._cameraRotComponent.InitializeComponent();
   }
 

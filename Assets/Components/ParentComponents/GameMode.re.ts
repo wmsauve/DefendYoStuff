@@ -1,3 +1,4 @@
+import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
 import PlayerController from 'Assets/Components/ParentComponents/PlayerController.re';
 import * as RE from 'rogue-engine';
 import { Object3D } from 'three';
@@ -30,6 +31,8 @@ export default class GameMode extends RE.Component {
       this._controllerContainer = this._pcPrefab.instantiate();
       this._playerController = RE.getComponent(PlayerController, this.object3d) as PlayerController;
     }
+
+    GeneralUtility.SetCurrentGameMode(this);
   }
 
 }

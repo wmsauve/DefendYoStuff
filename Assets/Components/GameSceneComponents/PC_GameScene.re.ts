@@ -10,7 +10,7 @@ export default class PC_GameScene extends PlayerController {
   start() {
     super.start();
 
-    RE.addComponent(new CameraMovementHandler('cameraRot', this.object3d));
+    RE.addComponent(new CameraMovementHandler('cameraMovement', this.object3d));
     this._cameraRotComponent = RE.getComponent(CameraMovementHandler, this.object3d) as SceneComponent;
     this._cameraRotComponent.InitializeComponent();
   }

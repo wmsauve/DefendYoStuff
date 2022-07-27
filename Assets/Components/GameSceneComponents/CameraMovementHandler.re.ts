@@ -1,9 +1,10 @@
-import { CameraBoundary, WorldBoundary } from 'Assets/Classes/Utility/CustomTypes';
+import { CameraBoundary } from 'Assets/Classes/Utility/CustomTypes';
 import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
 import * as RE from 'rogue-engine';
-import { Camera, Vector2 } from 'three';
+import { Vector2 } from 'three';
 import SceneComponent from '../ParentComponents/SceneComponent.re';
 import GM_GameScene from './GM_GameScene.re';
+import PC_GameScene, { EMovementMethod } from './PC_GameScene.re';
 
 enum EMouseLocation {
   Top,
@@ -18,32 +19,31 @@ enum EMouseLocation {
 }
 
 export default class CameraMovementHandler extends SceneComponent {
-  private _camera: Camera;
+  private _parent: PC_GameScene;
 
   private _mouse: Vector2 = new Vector2();
   private _currentMouseLoc: EMouseLocation = EMouseLocation.Center;
 
   private _boundary: CameraBoundary;
-  private _world: WorldBoundary;
   
   /**
    * Viewport is normalized between -1 and 1.
    * Boundaries will cap to -1 at the most left and 1 at the most right, -1 at the lowest and 1 at the highest.
    */
-  InitializeComponent(){
-    RE.Debug.log("Initializing this: " + this.name);
-    this._camera = RE.App.currentScene.getObjectByName("Main Camera") as Camera;
+  InitializeComponent(parent: PC_GameScene){
+    super.InitializeComponent();
+    this._parent = parent;
     
     const _gameMode = GeneralUtility.FetchGameModeRef() as GM_GameScene;
-    //Get ref
     this._boundary = _gameMode.GetConfig().GetCameraBoundary();
-    this._world = _gameMode.GetConfig().GetWorldBoundary();
 
     this.SetEventListeners();
   }
 
   update() {
-    if(!this._camera){
+    if(!this._camera 
+    || this._parent._camMovement != EMovementMethod.None
+    && this._parent._camMovement != EMovementMethod.Mouse){
       return;
     }
 
@@ -88,13 +88,10 @@ export default class CameraMovementHandler extends SceneComponent {
         break;
     }
 
-    if(_tempShift.x < this._world.leftX) { _tempShift.x = this._world.leftX }
-    if(_tempShift.x > this._world.rightX) { _tempShift.x = this._world.rightX }
-    if(_tempShift.y > this._world.backZ) { _tempShift.y = this._world.backZ }
-    if(_tempShift.y < this._world.forwardZ) { _tempShift.y = this._world.forwardZ }
+    let _clampChecked = this._parent.ClampWorldMovement(_tempShift);
 
-    this._camera.position.x = _tempShift.x;
-    this._camera.position.z = _tempShift.y;
+    this._camera.position.x = _clampChecked.x;
+    this._camera.position.z = _clampChecked.y;
   }
 
   private _findMouseLoc: (event) => void = (event) => {
@@ -105,13 +102,20 @@ export default class CameraMovementHandler extends SceneComponent {
     this._mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     this._mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
+
     if(this._mouse.x < this._boundary.right 
     && this._mouse.x > this._boundary.left
     && this._mouse.y < this._boundary.top
     && this._mouse.y > this._boundary.bot){
+      if(this._currentMouseLoc != EMouseLocation.Center){
+        this._parent.SetCamMovement(EMovementMethod.None, EMovementMethod.Mouse);
+      }
+
       this._currentMouseLoc = EMouseLocation.Center;
       return;
     }
+
+    this._parent.SetCamMovement(EMovementMethod.Mouse, EMovementMethod.Mouse);
 
     if(this._mouse.x < this._boundary.left){
 
@@ -171,7 +175,6 @@ export default class CameraMovementHandler extends SceneComponent {
       this._currentMouseLoc = EMouseLocation.Center;
     }
   };
-  
 
   private SetEventListeners(){
     document.addEventListener( 'mousemove', this._findMouseLoc, false );

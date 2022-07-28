@@ -19,6 +19,7 @@ export default class GameWorldConfig {
   constructor(cameraBound: CameraBoundary, worldBound: WorldBoundary){
     this._cameraBoundary = cameraBound;
     this._worldBoundary = worldBound;
+
   }
 
   public GetCameraBoundary(): CameraBoundary{
@@ -28,4 +29,5 @@ export default class GameWorldConfig {
   public GetWorldBoundary(): WorldBoundary{
     return this._worldBoundary;
   }
+
 }

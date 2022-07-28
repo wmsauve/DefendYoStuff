@@ -24,7 +24,11 @@ export default class GameInstance {
 
 
   
-  public static getInstance() {
+  public static getInstance(): GameInstance {
     return this._gameInstance;
+  }
+
+  public static getSavedGameManager(): SaveGameManager{
+    return this._savedManager;
   }
 }

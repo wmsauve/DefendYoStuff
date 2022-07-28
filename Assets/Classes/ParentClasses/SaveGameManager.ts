@@ -43,11 +43,25 @@ export default class SaveGameManager {
     this._savedGame._username = "DefaultUser";
     this._savedGame._completedLevel = 0;
 
+    this._savedGame._keybindings.forward = "KeyW";
+    this._savedGame._keybindings.backward = "KeyS";
+    this._savedGame._keybindings.left = "KeyA";
+    this._savedGame._keybindings.right = "KeyD";
+
+    this._savedGame._keybindings.skill1 = "Digit1";
+    this._savedGame._keybindings.skill2 = "Digit2";
+    this._savedGame._keybindings.skill3 = "Digit3";
+    this._savedGame._keybindings.skill4 = "Digit4";
+
     let _tempSaved = window.localStorage.setItem(this._saveGameKey, JSON.stringify(this._savedGame));
   }
 
   private ApplySaved(_fetched: SavedGame){
     this._savedGame = _fetched;
+  }
+
+  public GetSavedGame(): SavedGame{
+    return this._savedGame;
   }
 }
 

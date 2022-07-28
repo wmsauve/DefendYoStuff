@@ -1,1 +1,1 @@
-{"title":"Project","scenes":[{"name":"MainMenu","uuid":"8969c56c-5b28-4c4c-ad9c-22c5c6c17bec"},{"name":"GameScene","uuid":"5497c52a-8b66-446f-82fe-2db5ddc6cd7b"}],"projectVersion":19}
+{"title":"Project","scenes":[{"name":"MainMenu","uuid":"8969c56c-5b28-4c4c-ad9c-22c5c6c17bec"},{"name":"GameScene","uuid":"5497c52a-8b66-446f-82fe-2db5ddc6cd7b"}],"projectVersion":19,"useHttps":false}

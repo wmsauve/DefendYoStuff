@@ -1,5 +1,5 @@
 import GameInstance from 'Assets/Classes/ParentClasses/GameInstance';
-import { KeyBindings } from 'Assets/Classes/Utility/CustomTypes';
+import SavedGame from 'Assets/Classes/ParentClasses/SavedGame';
 import * as RE from 'rogue-engine';
 import { Vector2 } from 'three';
 import SceneComponent from '../ParentComponents/SceneComponent.re';
@@ -7,6 +7,7 @@ import PC_GameScene, { EMovementMethod } from './PC_GameScene.re';
 
 export default class KeybindingsHandler extends SceneComponent {
   private _parent: PC_GameScene;
+  private _keybindingsInit: boolean = false;
 
   private _forward: boolean = false;
   private _backward: boolean = false;
@@ -25,27 +26,14 @@ export default class KeybindingsHandler extends SceneComponent {
 
   InitializeComponent(parent: PC_GameScene){
     super.InitializeComponent();
-    return;
 
-    const _keybindings: KeyBindings = GameInstance.getSavedGameManager().GetSavedGame()._keybindings;
-
-    this._forwardKey = _keybindings.forward;
-    this._backKey = _keybindings.backward;
-    this._leftKey = _keybindings.left;
-    this._rightKey = _keybindings.right;
-
-    this._skill1 = _keybindings.skill1;
-    this._skill2 = _keybindings.skill2;
-    this._skill3 = _keybindings.skill3;
-    this._skill4 = _keybindings.skill4;
-
+    this.SetUpKeyBindings();
     this._parent = parent;
   }
 
   update(){
-    return;
-
     if(!this._camera 
+    || !this._keybindingsInit
     || this._parent._camMovement != EMovementMethod.None
     && this._parent._camMovement != EMovementMethod.Keyboard){
       return;
@@ -113,6 +101,22 @@ export default class KeybindingsHandler extends SceneComponent {
     this._camera.position.x = _clampChecked.x;
     this._camera.position.z = _clampChecked.y;
 
+  }
+
+  private SetUpKeyBindings(){
+    const _keybindings: SavedGame = GameInstance.getSavedGameManager().GetSavedGame();
+
+    this._forwardKey = _keybindings._forKeybind;
+    this._backKey = _keybindings._backKeybind;
+    this._leftKey = _keybindings._leftKeybind;
+    this._rightKey = _keybindings._rightKeybind;
+
+    this._skill1 = _keybindings._s1Keybind;
+    this._skill2 = _keybindings._s2Keybind;
+    this._skill3 = _keybindings._s3Keybind;
+    this._skill4 = _keybindings._s4Keybind;
+
+    this._keybindingsInit = true;
   }
 }
 

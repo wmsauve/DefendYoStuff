@@ -1,5 +1,6 @@
 import { WorldBoundary } from 'Assets/Classes/Utility/CustomTypes';
 import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
+import { GE_onMyInitComplete } from 'Assets/Classes/Utility/GlobalEvents';
 import * as RE from 'rogue-engine';
 import { Vector2 } from 'three';
 import PlayerController from '../ParentComponents/PlayerController.re';
@@ -40,7 +41,10 @@ export default class PC_GameScene extends PlayerController {
     }
 
     this.SetUpWorldClamp();
-    //this.SetUpEvent();
+    
+    
+
+    GeneralUtility.EventDispatcher(GE_onMyInitComplete, { detail: { message: 'Player Controller Components Set.' } });
   }
 
   update(){

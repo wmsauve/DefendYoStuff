@@ -1,5 +1,7 @@
 import PlayerController from "Assets/Components/ParentComponents/PlayerController.re";
 import { Object3D } from "three";
+import GeneralUtility from "../Utility/GeneralUtility";
+import { GE_onMyInitComplete } from "../Utility/GlobalEvents";
 
 export default class Player {
 
@@ -20,5 +22,9 @@ export default class Player {
     this._playerController = controller;
     this._controllerContainer = container;
     this._castle = castle;
+
+    GeneralUtility.EventDispatcher(GE_onMyInitComplete, { detail: { message: 'Player Components Set.' } });
   }
 }
+
+

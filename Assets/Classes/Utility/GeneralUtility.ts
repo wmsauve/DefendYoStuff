@@ -1,4 +1,5 @@
 import GameMode from 'Assets/Components/ParentComponents/GameMode.re';
+import { Debug } from 'rogue-engine';
 
 export default class GeneralUtility {
 
@@ -16,6 +17,20 @@ export default class GeneralUtility {
     }
 
     return _val;
+  }
+
+  static EventDispatcher(_eventName: string, _options?: {}){
+    let _newEvent: CustomEvent;
+
+    if(_options){
+      //default error checker okay?
+      _newEvent = new CustomEvent(_eventName, _options);
+    }
+    else{
+      _newEvent = new CustomEvent(_eventName);
+    }
+
+    document.dispatchEvent(_newEvent);
   }
 
   static SetCurrentGameMode(gameMode: GameMode){

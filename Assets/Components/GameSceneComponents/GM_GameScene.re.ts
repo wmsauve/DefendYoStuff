@@ -2,6 +2,7 @@ import Player from 'Assets/Classes/ConnectedPlayer/Player';
 import { CameraBoundary, WorldBoundary } from 'Assets/Classes/Utility/CustomTypes';
 import GameWorldConfig from 'Assets/Classes/Utility/GameWorldConfig';
 import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
+import { GE_onMyInitComplete } from 'Assets/Classes/Utility/GlobalEvents';
 import GameMode from 'Assets/Components/ParentComponents/GameMode.re';
 import * as RE from 'rogue-engine';
 import { Camera, Object3D } from 'three';
@@ -31,9 +32,12 @@ export default class GM_GameScene extends GameMode {
 
 
   start() {
+    this.ListenForInitialization();
+
     this.InitializePlayers();
     this.InitializeComponentValues();
     super.start();
+
   }
 
   update() {
@@ -97,6 +101,24 @@ export default class GM_GameScene extends GameMode {
 
     this._config = new GameWorldConfig(_tempBoundConfig, _tempWorldConfig);
 
+  }
+
+  private _onInitDone: (event) => void = (event) => {
+    if(!event.detail.message){
+      RE.Debug.log('Phase initialization check not working. Check dispatched event.detail.message.');
+      return;
+    }
+
+    RE.Debug.log('Phase Initialized: ' + event.detail.message);
+  };
+
+  private ListenForInitialization(){
+    document.addEventListener(GE_onMyInitComplete, this._onInitDone, false );
+
+    RE.onObjectRemoved((object, target) => {
+      document.removeEventListener(GE_onMyInitComplete, this._onInitDone, false);
+      stop();
+    });
   }
 
   public GetConfig(): GameWorldConfig{

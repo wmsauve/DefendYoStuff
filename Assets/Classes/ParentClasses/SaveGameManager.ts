@@ -1,3 +1,4 @@
+import GeneralUtility from "../Utility/GeneralUtility";
 import SavedGame from "./SavedGame";
 
 export default class SaveGameManager {
@@ -28,11 +29,13 @@ export default class SaveGameManager {
       console.log('Loading Data.');
       console.log(_data);
       this.ApplySaved(<SavedGame>_data);
-      ;
+
+      
     })
     .catch((_message) => {
       console.log(_message);
       this.GenerateSavedGame();
+
     });
 
   }
@@ -43,15 +46,15 @@ export default class SaveGameManager {
     this._savedGame._username = "DefaultUser";
     this._savedGame._completedLevel = 0;
 
-    this._savedGame._keybindings.forward = "KeyW";
-    this._savedGame._keybindings.backward = "KeyS";
-    this._savedGame._keybindings.left = "KeyA";
-    this._savedGame._keybindings.right = "KeyD";
+    this._savedGame._forKeybind = "KeyW";
+    this._savedGame._backKeybind = "KeyS";
+    this._savedGame._leftKeybind = "KeyA";
+    this._savedGame._rightKeybind = "KeyD";
 
-    this._savedGame._keybindings.skill1 = "Digit1";
-    this._savedGame._keybindings.skill2 = "Digit2";
-    this._savedGame._keybindings.skill3 = "Digit3";
-    this._savedGame._keybindings.skill4 = "Digit4";
+    this._savedGame._s1Keybind = "Digit1";
+    this._savedGame._s2Keybind = "Digit2";
+    this._savedGame._s3Keybind = "Digit3";
+    this._savedGame._s4Keybind = "Digit4";
 
     let _tempSaved = window.localStorage.setItem(this._saveGameKey, JSON.stringify(this._savedGame));
   }

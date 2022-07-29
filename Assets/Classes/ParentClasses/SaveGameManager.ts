@@ -1,11 +1,12 @@
-import GeneralUtility from "../Utility/GeneralUtility";
+import GameInstance from "./GameInstance";
 import SavedGame from "./SavedGame";
+import GeneralUtility, { ELogType } from "../Utility/GeneralUtility";
 
 export default class SaveGameManager {
 
   private _savedGame: SavedGame;
   private _saveGameKey: string = '_savedKey';
-  private _promiseFetch = new Promise((resolve, reject) => {
+  private _promiseFetch = new Promise((resolve:(_data: SavedGame) => void, reject) => {
 
     let _fetchedSaved = window.localStorage.getItem(this._saveGameKey);
 
@@ -26,16 +27,21 @@ export default class SaveGameManager {
  
     this._promiseFetch
     .then((_data) => {
-      console.log('Loading Data.');
+      GeneralUtility.LogWithType(ELogType.Initialize, "Loading Data.");
       console.log(_data);
-      this.ApplySaved(<SavedGame>_data);
 
-      
+      GeneralUtility.LogWithType(ELogType.Initialize, "Checking version.");
+      if(_data._version && _data._version === GameInstance.getInstanceVersion()){
+        this.ApplySaved(_data);
+      }
+      else{
+        //TODO: add function later to resolve difference between someone's saved and an update to SavedGame
+        GeneralUtility.LogWithType(ELogType.Initialize, "Version difference.");
+      }
     })
     .catch((_message) => {
-      console.log(_message);
+      GeneralUtility.LogWithType(ELogType.Initialize, _message);
       this.GenerateSavedGame();
-
     });
 
   }
@@ -43,6 +49,8 @@ export default class SaveGameManager {
   //Functionality related
   private GenerateSavedGame(){
     this._savedGame = new SavedGame();
+    this._savedGame._version = GameInstance.getInstanceVersion();
+
     this._savedGame._username = "DefaultUser";
     this._savedGame._completedLevel = 0;
 

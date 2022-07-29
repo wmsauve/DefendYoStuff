@@ -1,7 +1,8 @@
 import Player from 'Assets/Classes/ConnectedPlayer/Player';
+import GameInstance from 'Assets/Classes/ParentClasses/GameInstance';
 import { CameraBoundary, WorldBoundary } from 'Assets/Classes/Utility/CustomTypes';
 import GameWorldConfig from 'Assets/Classes/Utility/GameWorldConfig';
-import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
+import GeneralUtility, { ELogType } from 'Assets/Classes/Utility/GeneralUtility';
 import { GE_onMyInitComplete } from 'Assets/Classes/Utility/GlobalEvents';
 import GameMode from 'Assets/Components/ParentComponents/GameMode.re';
 import * as RE from 'rogue-engine';
@@ -54,8 +55,7 @@ export default class GM_GameScene extends GameMode {
       let _container: Object3D;
       let _playerController: PlayerController;
       let _castle: Object3D;
-
-      RE.Debug.log("Adding player: ");
+      GeneralUtility.LogWithType(ELogType.Initialize, "Adding player: " + GameInstance.getSavedGameManager().GetSavedGame()._username);
 
       //Player controller
       if(!this._pcPrefab){
@@ -70,13 +70,12 @@ export default class GM_GameScene extends GameMode {
         _container = this._pcPrefab.instantiate();
         _playerController = RE.getComponent(PlayerController, this.object3d) as PlayerController;
       }
-
-      RE.Debug.log("PlayerController added for player: ");
+      GeneralUtility.LogWithType(ELogType.Initialize, "PlayerController added for player: " + GameInstance.getSavedGameManager().GetSavedGame()._username);
 
       //Castle related - Should create a default castle for no castle placed. Too lazy right now.
       _castle = this._castlePrefab.instantiate();
 
-      RE.Debug.log("Castle added for player: ");
+      GeneralUtility.LogWithType(ELogType.Initialize, "Castle added for player: " + GameInstance.getSavedGameManager().GetSavedGame()._username);
       this._connectedPlayers[i].SetControllerComponents(_playerController, _container, _castle);
       
     }
@@ -105,11 +104,10 @@ export default class GM_GameScene extends GameMode {
 
   private _onInitDone: (event) => void = (event) => {
     if(!event.detail.message){
-      RE.Debug.log('Phase initialization check not working. Check dispatched event.detail.message.');
+      GeneralUtility.LogWithType(ELogType.ErrorCheck, 'Phase initialization check not working. Check dispatched event.detail.message.');
       return;
     }
-
-    RE.Debug.log('Phase Initialized: ' + event.detail.message);
+    GeneralUtility.LogWithType(ELogType.Initialize, 'Phase Initialized: ' + event.detail.message);
   };
 
   private ListenForInitialization(){

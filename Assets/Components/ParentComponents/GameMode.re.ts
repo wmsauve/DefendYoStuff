@@ -1,5 +1,5 @@
 import GameInstance from 'Assets/Classes/ParentClasses/GameInstance';
-import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
+import GeneralUtility, { ELogType } from 'Assets/Classes/Utility/GeneralUtility';
 import * as RE from 'rogue-engine';
 
 
@@ -13,7 +13,7 @@ export default class GameMode extends RE.Component {
   }
 
   start() {
-    RE.Debug.log("Setting GameMode.");
+    GeneralUtility.LogWithType(ELogType.Initialize, "Setting which GameMode.")
 
     GeneralUtility.SetCurrentGameMode(this);
   }

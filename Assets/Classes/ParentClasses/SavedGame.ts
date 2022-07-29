@@ -1,5 +1,7 @@
 export default class SavedGame {
 
+  public _version: number;
+
   public _username: string;
   public _completedLevel: number;
   public _forKeybind: string;

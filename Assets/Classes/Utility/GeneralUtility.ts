@@ -1,12 +1,43 @@
 import GameMode from 'Assets/Components/ParentComponents/GameMode.re';
 import { Debug } from 'rogue-engine';
 
+
+export enum ELogType{
+  Initialize,
+  ErrorCheck,
+}
+
 export default class GeneralUtility {
 
   private static _currentGameMode: GameMode;
 
-  //Functions related
-  static CapValue(_min: number, _max: number, _val: number): number {
+  //Utility related functions
+  private static _logDefText: string = "LogDefault";
+  private static _logInitText: string = "LogInit";
+  private static _logErrText: string = "LogError";
+
+  public static LogWithType(_logType: ELogType, _message: string){
+
+    let _log: string = "";
+
+    switch(_logType){
+      case ELogType.Initialize:
+        _log = this._logInitText;
+        break;
+      case ELogType.ErrorCheck:
+        _log = this._logErrText;
+        break;
+      default:
+        _log = this._logDefText;
+        break;
+    }
+    Debug.log(_log + " : " + _message);
+  }
+
+
+
+  //Game related functions
+  public static CapValue(_min: number, _max: number, _val: number): number {
 
     if(_val < _min){
       return _min;
@@ -19,7 +50,7 @@ export default class GeneralUtility {
     return _val;
   }
 
-  static EventDispatcher(_eventName: string, _options?: {}){
+  public static EventDispatcher(_eventName: string, _options?: {}){
     let _newEvent: CustomEvent;
 
     if(_options){
@@ -33,11 +64,11 @@ export default class GeneralUtility {
     document.dispatchEvent(_newEvent);
   }
 
-  static SetCurrentGameMode(gameMode: GameMode){
+  public static SetCurrentGameMode(gameMode: GameMode){
     this._currentGameMode = gameMode;
   }
 
-  static FetchGameModeRef(): GameMode{
+  public static FetchGameModeRef(): GameMode{
     return this._currentGameMode;
   }
 }

@@ -31,4 +31,3 @@ export type WorldBoundary = {
   backZ: number,
 }
 
-

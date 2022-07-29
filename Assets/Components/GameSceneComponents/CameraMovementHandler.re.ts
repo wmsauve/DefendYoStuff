@@ -2,7 +2,7 @@ import { CameraBoundary } from 'Assets/Classes/Utility/CustomTypes';
 import GeneralUtility from 'Assets/Classes/Utility/GeneralUtility';
 import * as RE from 'rogue-engine';
 import { Vector2 } from 'three';
-import SceneComponent from '../ParentComponents/SceneComponent.re';
+import GameSceneComponent from './GameSceneComponent.re';
 import GM_GameScene from './GM_GameScene.re';
 import PC_GameScene, { EMovementMethod } from './PC_GameScene.re';
 
@@ -18,8 +18,7 @@ enum EMouseLocation {
   TopRight,
 }
 
-export default class CameraMovementHandler extends SceneComponent {
-  private _parent: PC_GameScene;
+export default class CameraMovementHandler extends GameSceneComponent {
 
   private _mouse: Vector2 = new Vector2();
   private _currentMouseLoc: EMouseLocation = EMouseLocation.Center;
@@ -30,10 +29,8 @@ export default class CameraMovementHandler extends SceneComponent {
    * Viewport is normalized between -1 and 1.
    * Boundaries will cap to -1 at the most left and 1 at the most right, -1 at the lowest and 1 at the highest.
    */
-  InitializeComponent(parent: PC_GameScene){
-    super.InitializeComponent();
-    this._parent = parent;
-    
+  InitializeComponent(_parent: PC_GameScene){
+    super.InitializeComponent(_parent);
     const _gameMode = GeneralUtility.FetchGameModeRef() as GM_GameScene;
     this._boundary = _gameMode.GetConfig().GetCameraBoundary();
 

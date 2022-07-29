@@ -2,11 +2,10 @@ import GameInstance from 'Assets/Classes/ParentClasses/GameInstance';
 import SavedGame from 'Assets/Classes/ParentClasses/SavedGame';
 import * as RE from 'rogue-engine';
 import { Vector2 } from 'three';
-import SceneComponent from '../ParentComponents/SceneComponent.re';
+import GameSceneComponent from './GameSceneComponent.re';
 import PC_GameScene, { EMovementMethod } from './PC_GameScene.re';
 
-export default class KeybindingsHandler extends SceneComponent {
-  private _parent: PC_GameScene;
+export default class KeybindingsHandler extends GameSceneComponent {
   private _keybindingsInit: boolean = false;
 
   private _forward: boolean = false;
@@ -24,11 +23,9 @@ export default class KeybindingsHandler extends SceneComponent {
   private _skill3: string;
   private _skill4: string;
 
-  InitializeComponent(parent: PC_GameScene){
-    super.InitializeComponent();
-
+  InitializeComponent(_parent: PC_GameScene){
+    super.InitializeComponent(_parent);
     this.SetUpKeyBindings();
-    this._parent = parent;
   }
 
   update(){

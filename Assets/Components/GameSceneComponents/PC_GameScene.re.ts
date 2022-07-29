@@ -5,7 +5,9 @@ import * as RE from 'rogue-engine';
 import { Vector2 } from 'three';
 import PlayerController from '../ParentComponents/PlayerController.re';
 import SceneComponent from '../ParentComponents/SceneComponent.re';
+import AutoAttackComponent from './AutoAttackComponent.re';
 import CameraMovementHandler from './CameraMovementHandler.re';
+import GameSceneComponent from './GameSceneComponent.re';
 import GM_GameScene from './GM_GameScene.re';
 import KeybindingsHandler from './KeybindingsHandler.re';
 
@@ -18,7 +20,7 @@ export enum EMovementMethod {
 
 export default class PC_GameScene extends PlayerController {
 
-  private _controlsComponents: SceneComponent[] = [];
+  private _controlsComponents: GameSceneComponent[] = [];
 
   private _world: WorldBoundary;
 
@@ -28,12 +30,16 @@ export default class PC_GameScene extends PlayerController {
     super.start();
 
     RE.addComponent(new CameraMovementHandler('cameraMovement', this.object3d));
-    let _camComp = RE.getComponent(CameraMovementHandler, this.object3d) as SceneComponent;
+    let _camComp = RE.getComponent(CameraMovementHandler, this.object3d) as GameSceneComponent;
     this._controlsComponents.push(_camComp);
 
-    RE.addComponent(new KeybindingsHandler('keybindings', this.object3d));
-    let _keysComp = RE.getComponent(KeybindingsHandler, this.object3d) as SceneComponent;
+    RE.addComponent(new KeybindingsHandler('keyBindings', this.object3d));
+    let _keysComp = RE.getComponent(KeybindingsHandler, this.object3d) as GameSceneComponent;
     this._controlsComponents.push(_keysComp);
+
+    RE.addComponent(new AutoAttackComponent('autoAttack', this.object3d));
+    let _aaComp = RE.getComponent(AutoAttackComponent, this.object3d) as GameSceneComponent;
+    this._controlsComponents.push(_aaComp);
 
 
     for (let i = 0; i < this._controlsComponents.length; i++) {

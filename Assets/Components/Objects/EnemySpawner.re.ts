@@ -1,5 +1,5 @@
 import * as RE from 'rogue-engine';
-import Spawner from './Spawner.re';
+import Spawner from '../ParentComponents/SceneObjects/Spawner.re';
 
 export default class EnemySpawner extends Spawner {
 
@@ -16,6 +16,10 @@ export default class EnemySpawner extends Spawner {
   }
 
   update() {
+    if(!this._spawned){
+      return;
+    }
+
     this._counter += RE.Runtime.deltaTime;
 
     if(this._counter >= this._spawnCooldown){
@@ -23,7 +27,7 @@ export default class EnemySpawner extends Spawner {
       _newSphere.position.x = 20;
       _newSphere.position.y = 200;
       this._counter = 0;
-      RE.Debug.log("Spawning a new thing.");
+      //RE.Debug.log("Spawning a new thing.");
     }
   }
 }

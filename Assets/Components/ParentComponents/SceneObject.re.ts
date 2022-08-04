@@ -13,10 +13,8 @@ export enum EObjectTags{
 export default class SceneObject extends RE.Component {
 
   @RE.props.prefab() _staticMeshPrefab: RE.Prefab;
-  /**
-   * TODO: Add list of tags. Seems like it doesn't work 100% yet. Not important at the moment.
-   */
-  @RE.props.select() _objectTag = 0;
+
+  @RE.props.list.select() _objectTag: EObjectTags[] = [0];
   _objectTagOptions = [
     EObjectTags[EObjectTags.Landscape], 
     EObjectTags[EObjectTags.Projectile],
@@ -25,7 +23,7 @@ export default class SceneObject extends RE.Component {
     EObjectTags[EObjectTags.Neutral],
   ];
 
-  private _geometry: Object3D;
+  public _geometry: Object3D;
 
   start(){
     if(!this._staticMeshPrefab){
@@ -34,8 +32,14 @@ export default class SceneObject extends RE.Component {
 
     this._geometry = this._staticMeshPrefab.instantiate(this.object3d);
 
+    if(this.onStaticMeshComplete != null){
+      this.onStaticMeshComplete();
+    }
+
     RE.App.currentScene.add(this._geometry);
   }
+
+  public onStaticMeshComplete: () => void;
 
 }
 

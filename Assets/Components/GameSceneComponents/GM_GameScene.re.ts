@@ -8,10 +8,12 @@ import GameMode from 'Assets/Components/ParentComponents/GameMode.re';
 import * as RE from 'rogue-engine';
 import { Camera, Object3D } from 'three';
 import PlayerController from '../ParentComponents/PlayerController.re';
+import ProjectilePrefabs from '../Utility/ProjectilePrefabs.re';
 
 export default class GM_GameScene extends GameMode {
 
   private _config: GameWorldConfig;
+  private _projectileHolder: ProjectilePrefabs;
 
   /**
    * If multiplayer is added, client logic related to a player should be tied to Player.
@@ -34,7 +36,8 @@ export default class GM_GameScene extends GameMode {
 
   start() {
     this.ListenForInitialization();
-
+    
+    
     this.InitializePlayers();
     this.InitializeComponentValues();
     super.start();
@@ -100,6 +103,15 @@ export default class GM_GameScene extends GameMode {
 
     this._config = new GameWorldConfig(_tempBoundConfig, _tempWorldConfig);
 
+
+    for(let i = 0; i < this.object3d.children.length; i++){
+      const _child = RE.getComponent(ProjectilePrefabs, this.object3d.children[i]) as ProjectilePrefabs;
+
+      if(_child){
+        this._projectileHolder = _child;
+        break;
+      }
+    }
   }
 
   private _onInitDone: (event) => void = (event) => {
@@ -121,6 +133,10 @@ export default class GM_GameScene extends GameMode {
 
   public GetConfig(): GameWorldConfig{
     return this._config;
+  }
+
+  public GetProjectilePrefabs(): ProjectilePrefabs{
+    return this._projectileHolder;
   }
 }
 

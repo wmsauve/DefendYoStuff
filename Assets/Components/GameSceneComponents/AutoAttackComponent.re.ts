@@ -64,22 +64,18 @@ export default class AutoAttackComponent extends GameSceneComponent {
               _bulletComp._geometry.position.x = _worldCoords.x;
               _bulletComp._geometry.position.z = _worldCoords.z;
               _bulletComp._geometry.position.y = _worldCoords.y;
-              RE.Debug.log("set pos static mesh.");
 
               let _dirVector = new Vector3();
               _dirVector.x = intersects[i].point.x - _worldCoords.x;
               _dirVector.y = intersects[i].point.y - _worldCoords.y;
               _dirVector.z = intersects[i].point.z - _worldCoords.z;
               _dirVector.normalize();
-              RE.Debug.log(JSON.stringify(_dirVector) + " yooyoy.");
+
               let _cannonBody = RE.getComponent(CannonBody, _bulletComp._geometry) as CannonBody;
               
               
               _cannonBody.body.applyImpulse(new Vec3(_dirVector.x, _dirVector.y, _dirVector.z).scale(_cannonBody.body.mass * 200))
 
-              // RE.Debug.log(_bulletComp._geometry.position.x.toString() + " is x?")
-              // RE.Debug.log(_bulletComp._geometry.position.y.toString() + " is y?")
-              // RE.Debug.log(_bulletComp._geometry.position.z.toString() + " is z?")
             }
 
           }

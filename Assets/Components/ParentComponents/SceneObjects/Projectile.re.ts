@@ -1,6 +1,5 @@
 import { EWhichProjectile } from 'Assets/Components/Utility/ProjectilePrefabs.re';
 import * as RE from 'rogue-engine';
-import { Vector3 } from 'three';
 import SceneObject from '../SceneObject.re';
 
 export default class Projectile extends SceneObject {

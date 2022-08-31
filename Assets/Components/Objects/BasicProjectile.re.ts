@@ -15,8 +15,7 @@ export default class BasicProjectile extends Projectile {
     if(!this._geometry){
       return;
     }
-    //this._geometry.translateZ(-1 * RE.Runtime.deltaTime);
-    //RE.Debug.log(JSON.stringify(this._geometry.rotation));
+
   }
 }
 

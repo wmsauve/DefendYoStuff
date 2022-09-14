@@ -7,7 +7,7 @@ export default abstract class SceneController extends Lifecycle {
     private _onPlayCallbacks;
     private _onStopCallbacks;
     private _throttledAdjustCameraAndRenderer;
-    protected _scene: Scene;
+    protected _scene: THREE.Scene;
     protected _containerId: string;
     protected _rogueDOMContainer: HTMLElement;
     protected _camera: Camera;
@@ -44,7 +44,7 @@ export default abstract class SceneController extends Lifecycle {
     private loadMaterials;
     play(scene: Scene, renderer?: WebGLRenderer, componentsToLoad?: any): void;
     stop(): void;
-    private updateEvensHandler;
+    private updateEventsHandler;
     pause(): void;
     resume(): void;
     togglePause(): void;

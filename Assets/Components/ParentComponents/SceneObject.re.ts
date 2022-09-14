@@ -1,3 +1,4 @@
+import CannonBody from 'Assets/rogue_packages/rogue-cannon/Components/CannonBody.re';
 import * as RE from 'rogue-engine';
 import { Object3D } from 'three';
 
@@ -23,14 +24,18 @@ export default class SceneObject extends RE.Component {
     EObjectTags[EObjectTags.Neutral],
   ];
 
-  public _geometry: Object3D;
+  protected _geometry: Object3D;
+  protected _cannonBody: CannonBody;
 
   start(){
     if(!this._staticMeshPrefab){
+
       return;
     }
 
     this._geometry = this._staticMeshPrefab.instantiate(this.object3d);
+    
+    this._cannonBody = RE.getComponent(CannonBody, this._geometry) as CannonBody;
 
     if(this.onStaticMeshComplete != null){
       this.onStaticMeshComplete();
@@ -40,6 +45,21 @@ export default class SceneObject extends RE.Component {
   }
 
   public onStaticMeshComplete: () => void;
+
+  //Getter
+  GetCannonBody(): CannonBody{
+    return this._cannonBody;
+  }
+
+  GetStaticMesh(): Object3D{
+    return this._geometry;
+  }
+
+  //Remove object.
+  CleanUpSceneObject(){
+    RE.App.currentScene.remove(this._geometry);
+    RE.App.currentScene.remove(this.object3d);
+  }
 
 }
 

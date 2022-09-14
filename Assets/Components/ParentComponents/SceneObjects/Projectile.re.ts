@@ -19,7 +19,6 @@ export default class Projectile extends SceneObject {
     return this._myType;
   }
 
-
 }
 
 RE.registerComponent(Projectile);

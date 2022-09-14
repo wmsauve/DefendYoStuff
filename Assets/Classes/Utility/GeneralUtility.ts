@@ -5,6 +5,7 @@ import { Debug } from 'rogue-engine';
 export enum ELogType{
   Initialize,
   ErrorCheck,
+  Testing,
 }
 
 export default class GeneralUtility {
@@ -15,6 +16,7 @@ export default class GeneralUtility {
   private static _logDefText: string = "LogDefault";
   private static _logInitText: string = "LogInit";
   private static _logErrText: string = "LogError";
+  private static _logTestText: string = "LogTesting";
 
   public static LogWithType(_logType: ELogType, _message: string){
 
@@ -26,6 +28,9 @@ export default class GeneralUtility {
         break;
       case ELogType.ErrorCheck:
         _log = this._logErrText;
+        break;
+      case ELogType.Testing:
+        _log = this._logTestText;
         break;
       default:
         _log = this._logDefText;

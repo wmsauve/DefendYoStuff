@@ -61,20 +61,18 @@ export default class AutoAttackComponent extends GameSceneComponent {
             _bulletComp.onStaticMeshComplete = () => {
               //Shoot this bullet from screen to position on landscape.
               let _worldCoords = new Vector3(this._pointer.x, this._pointer.y, -1).unproject(this._camera);
-              _bulletComp._geometry.position.x = _worldCoords.x;
-              _bulletComp._geometry.position.z = _worldCoords.z;
-              _bulletComp._geometry.position.y = _worldCoords.y;
+              _bulletComp.GetStaticMesh().position.x = _worldCoords.x;
+              _bulletComp.GetStaticMesh().position.z = _worldCoords.z;
+              _bulletComp.GetStaticMesh().position.y = _worldCoords.y;
 
               let _dirVector = new Vector3();
               _dirVector.x = intersects[i].point.x - _worldCoords.x;
               _dirVector.y = intersects[i].point.y - _worldCoords.y;
               _dirVector.z = intersects[i].point.z - _worldCoords.z;
               _dirVector.normalize();
-
-              let _cannonBody = RE.getComponent(CannonBody, _bulletComp._geometry) as CannonBody;
               
               
-              _cannonBody.body.applyImpulse(new Vec3(_dirVector.x, _dirVector.y, _dirVector.z).scale(_cannonBody.body.mass * 200))
+              _bulletComp.GetCannonBody().body.applyImpulse(new Vec3(_dirVector.x, _dirVector.y, _dirVector.z).scale(_bulletComp.GetCannonBody().body.mass * 200))
 
             }
 
